@@ -18,48 +18,83 @@
 
 // ReactDOM.render(<GroceryList />, document.getElementById('app'));
 
-
-
-
-class TodoListItem extends React.Component {
-
-  // A `constructor` method is expected on all ES6 classes
-  // When React instantiates the component,
-  // it will pass `props` to the constructor
+class GroceryListItem extends React.Component {
   constructor(props) {
-    // Equivalent to ES5's React.Component.call(this, props)
     super(props);
+    this.state = {
+      done: false
+    }
+  }
+  onListItemClick() {
+    this.setState({
+      done: !this.state.done
+    });
   }
 
-  // Every class component must have a `render` method
-  // Stateless functional components are pretty much just this method
   render() {
-
-    // `props` is no longer passed as an argument,
-    // but instead accessed with `this.props`
+    var style = {
+      fontWeight: this.state.done ? 'bold' : 'normal'
+    };
     return (
-      <li>{this.props.todo}</li>
-    );
+      // <li style={style} onClick={this.onListItemClick.bind(this)}>{this.props.item}</li>
+      <li style={style} onMouseEnter={this.onListItemClick.bind(this)} onMouseLeave={this.onListItemClick.bind(this)}>{this.props.item}</li>
 
+    )
   }
-
 }
 
-// Update our `TodoList` to use the new `TodoListItem` component
-// This can still be a stateless function component!
-var TodoList = (props) => (
-  <ul>
-    {props.todos.map(todo =>
-      <TodoListItem todo={todo} />
-    )}
-  </ul>
-);
-var props = {
-  todos: ["walk", "run", "swim"]
-};
+var GroceryList = (props) => {
+  return (
+    <ul>
+      {props.items.map(item =>
+        <GroceryListItem item={item} />
+      )}
+    </ul>
+  );
 
-var element = TodoList(props);
-ReactDOM.render(element, document.getElementById('app'));
+};
+ReactDOM.render(<GroceryList items={["coffee", "tea"]}/>, document.getElementById('app'));
+
+
+// class TodoListItem extends React.Component {
+
+//   // A `constructor` method is expected on all ES6 classes
+//   // When React instantiates the component,
+//   // it will pass `props` to the constructor
+//   constructor(props) {
+//     // Equivalent to ES5's React.Component.call(this, props)
+//     super(props);
+//   }
+
+//   // Every class component must have a `render` method
+//   // Stateless functional components are pretty much just this method
+//   render() {
+
+//     // `props` is no longer passed as an argument,
+//     // but instead accessed with `this.props`
+//     return (
+//       <li>{this.props.todo}</li>
+//     );
+
+//   }
+
+// }
+
+// // Update our `TodoList` to use the new `TodoListItem` component
+// // This can still be a stateless function component!
+// var TodoList = (props) => (
+//   <ul>
+//     {props.todos.map(todo =>
+//       <TodoListItem todo={todo} />
+//     )}
+//   </ul>
+// );
+// var props = {
+//   todos: ["walk", "run", "swim"]
+// };
+
+// var element = TodoList(props);
+// ReactDOM.render(element, document.getElementById('app'));
 
 
 // class GroceryListItem extends React.Component {
